@@ -4,8 +4,9 @@ import requests
 
 def index(request):
 	url='https://api.openweathermap.org/data/2.5/weather?q={}&units=imperial&appid=1b3a90d0e878c5aef83f4210c32f5899' 
+	weather_data=[]
 	cities=City.objects.all()
-	city_weather=requests.get(url.format(city)).json()
+#	city_weather=requests.get(url.format(city)).json()
 	for city in cities:
 	#print(city_weather) #Temporary view output for json objects representation
 		weather={
@@ -14,6 +15,7 @@ def index(request):
 			'description':city_weather['weather'][0]['description'],
 			'icon':city_weather['weather'][0]['icon'],
 		}
-	weather_data.append(weather) #Adds data for selected city into the list of cities
-	context={'weather':weather}
+		weather_data.append(weather) #Adds data for selected city into the list of cities
+	
+	context={'weather':weather_data}
 	return render(request,'places/index.html',context )
